@@ -1,5 +1,7 @@
 # 방명록 (Guestbook)
 
+**작동 링크: https://guestbook-app-ecru.vercel.app**
+
 Supabase를 백엔드로 쓰는 정적 방명록 앱. 이름 + 메시지를 남기면 실제 DB에 저장되고,
 새로고침해도 남습니다. 튜토리얼 기본 기능에 **항목 삭제 기능**을 추가했습니다.
 
