@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>방명록</title>
+<style>
+  :root {
+    --bg: #f6f5f2;
+    --card: #ffffff;
+    --ink: #232323;
+    --muted: #7a7a7a;
+    --accent: #4b6b52;
+    --line: #e6e3dc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+  main {
+    width: 100%;
+    max-width: 520px;
+  }
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+  p.sub {
+    color: var(--muted);
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+  }
+  form {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  input, textarea {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+  }
+  button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  #status {
+    font-size: 0.85rem;
+    color: var(--muted);
+    min-height: 1.2em;
+  }
+  #status.error { color: #b3453a; }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .entry-body strong {
+    display: block;
+    font-size: 0.95rem;
+  }
+  .entry-body p {
+    margin: 4px 0 0;
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+  }
+  .entry-body time {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .delete-btn {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+  .delete-btn:hover {
+    color: #b3453a;
+    border-color: #b3453a;
+  }
+  #empty {
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 24px 0;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>방명록</h1>
+  <p class="sub">이름과 메시지를 남기면 실제 DB(Supabase)에 저장됩니다. 새로고침해도 남아요.</p>
+
+  <form id="entry-form">
+    <input id="name" type="text" placeholder="이름" maxlength="30" required />
+    <textarea id="message" rows="3" placeholder="메시지" maxlength="300" required></textarea>
+    <button type="submit" id="submit-btn">남기기</button>
+    <div id="status"></div>
+  </form>
+
+  <ul id="entries"></ul>
+  <div id="empty" style="display:none;">아직 메시지가 없어요. 첫 메시지를 남겨보세요!</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
