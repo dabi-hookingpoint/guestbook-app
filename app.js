@@ -1,3 +1,6 @@
+// SUPABASE_URL / SUPABASE_ANON_KEY는 config.js에서 로드됨 (index.html에서 config.js를
+// 이 스크립트보다 먼저 불러옴). anon key는 브라우저에 노출되어도 되는 공개 키이며,
+// 실제 데이터 접근 제어는 schema.sql의 RLS 정책이 담당한다.
 const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const form = document.getElementById("entry-form");
@@ -13,6 +16,9 @@ function setStatus(text, isError = false) {
   statusEl.classList.toggle("error", isError);
 }
 
+// 사용자가 입력한 name/message를 renderEntries()에서 innerHTML로 삽입하기 때문에,
+// <script> 등이 그대로 실행되는 XSS를 막기 위해 반드시 이 함수를 거쳐 이스케이프한다.
+// (div.textContent에 대입 후 innerHTML을 읽으면 브라우저가 특수문자를 엔티티로 변환해준다)
 function escapeHtml(str) {
   const div = document.createElement("div");
   div.textContent = str;
@@ -91,6 +97,8 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
+// renderEntries()가 목록을 통째로 다시 그리므로, 항목마다 리스너를 새로 달지 않고
+// 부모(listEl)에 한 번만 위임해서 재렌더링 후에도 계속 동작하게 한다.
 listEl.addEventListener("click", (e) => {
   const btn = e.target.closest(".delete-btn");
   if (!btn) return;
